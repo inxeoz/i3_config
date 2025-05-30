@@ -1,0 +1,55 @@
+Here are the steps to fix the "Connection failed: No audio endpoints registered" error:
+Steps to Resolve the Issue
+
+    Install Required Packages:
+
+        Ensure that PipeWire and Bluetooth-related packages are installed:
+
+    bash
+    sudo pacman -S pipewire pipewire-pulse wireplumber bluez bluez-libs bluez-utils
+
+Restart Services:
+
+    Restart PipeWire and Bluetooth services:
+
+    bash
+    systemctl --user restart pipewire pipewire-pulse wireplumber
+    systemctl restart bluetooth
+
+Load Bluetooth Modules:
+
+    Load the necessary modules for Bluetooth audio:
+
+    bash
+    pactl load-module module-bluez5-device
+    pactl load-module module-bluez5-discover
+
+Unmask PipeWire (if masked):
+
+    If you accidentally masked PipeWire, unmask it:
+
+    bash
+    systemctl unmask pipewire
+    systemctl unmask pipewire-pulse
+
+Remove and Re-Pair Bluetooth Devices:
+
+    Use blueman-applet or bluetoothctl to remove the problematic device and pair it again:
+
+    bash
+    bluetoothctl remove <device_mac_address>
+    bluetoothctl pair <device_mac_address>
+    bluetoothctl connect <device_mac_address>
+
+Reboot the System:
+
+    After applying changes, reboot your system to ensure all configurations take effect.
+
+Verify Audio Endpoints:
+
+    Check if audio endpoints are registered using:
+
+bash
+pactl list short sinks
+
+If no sinks are listed, troubleshoot further by ensuring PipeWire is properly configured.
