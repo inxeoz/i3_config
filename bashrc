@@ -7,9 +7,11 @@
 alias ls='ls --color=auto --classify'
 alias grep='grep --color=auto'
 alias cdc='cd ~/coding'
-alias cdd='cd ~/Documents'
-alias cddd='cd ~/Downloads'
+#alias cdd='cd ~/Documents'
+alias cdd='cd ~/Downloads'
 alias cdt='cd ~/Temp'
+alias cdnvim='cd ~/.config/nvim/'
+#alias  a='autodisplay'
 
 # Prompt settings
 PS1='[\u@\h \W]\$ '
@@ -26,9 +28,9 @@ export LS_COLORS="di=37:*di=*/"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 ##### i am using n package from npm
-####export NVM_DIR="$HOME/.nvm"
-####[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-####[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 #. "$HOME/.local/bin/env"
 
@@ -51,3 +53,7 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+#
+#
+#
+
