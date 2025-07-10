@@ -12,7 +12,8 @@ exec --no-startup-id xfce4-power-manager
 # Programs
 bindsym $mod+c kill
 
-set $terminal kitty
+set $terminal alacritty
+
 exec --no-startup-id polybar
 
 #gaps inner 5px
@@ -228,7 +229,7 @@ bindsym Mod1+space exec rofi -show drun
 
 
 # start a terminal
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec alacritty
 
 
 bindsym $mod+Shift+e exec i3-msg exit
