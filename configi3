@@ -16,6 +16,10 @@ exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id ~/.config/polybar/launch.sh
 
+
+### ========== Wallpaper ========== ###
+exec --no-startup-id bash -c "feh --bg-scale \"$(find ~/Wallpaper -type f -print0 | shuf -z -n 1 | xargs -0)\""
+
 ### ========== APPEARANCE ========== ###
 new_window pixel 5
 for_window [class=".*"] border pixel 5
