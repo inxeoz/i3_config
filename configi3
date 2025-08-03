@@ -143,3 +143,8 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 ### ========== MISC ========== ###
 floating_modifier $mod
 tiling_drag modifier titlebar
+
+
+# sudo pacman -S i3-wm i3status dex xss-lock i3lock xclip xdg-utils feh picom \
+# xfce4-power-manager network-manager-applet pavucontrol dmenu rofi pulseaudio \
+# pulseaudio-alsa flameshot imagemagick alacritty kitty polybar
