@@ -108,7 +108,7 @@ label-indicator-background  = ${colors.secondary}
 
 [module/memory]
 type                        = custom/script
-exec                        = awk '/Mem/ { printf \"%d\", ($3/$2)*100 }' < /proc/meminfo
+exec                        = free | awk '/Mem/ { printf "%d", ($3/$2)*100 }'
 interval                    = 2
 format-prefix               = "RAM "
 format-prefix-foreground    = ${colors.primary}
