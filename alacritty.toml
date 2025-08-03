@@ -1,0 +1,75 @@
+# ~/.config/alacritty/alacritty.toml
+
+[env]
+TERM = "xterm-256color"
+
+[window]
+decorations = "none"                # No window borders
+dynamic_padding = true              # Auto adjusts padding
+opacity = 0.92                      # Transparent terminal
+startup_mode = "Windowed"
+title = "Alacritty"
+
+[window.padding]
+x = 12
+y = 10
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[font]
+normal = { family = "JetBrains Mono", style = "Regular" }
+bold = { family = "JetBrains Mono", style = "Bold" }
+italic = { family = "JetBrains Mono", style = "Italic" }
+size = 12.0
+offset = { x = 0, y = 1 }
+
+[draw_bold_text_with_bright_colors]
+enabled = true
+
+[colors.primary]
+background = "#0f111a"
+foreground = "#dcdfe4"
+
+[colors.cursor]
+text = "CellBackground"
+cursor = "#f7768e"
+
+[colors.selection]
+text = "CellForeground"
+background = "#3e4451"
+
+[colors.normal]
+black = "#1e1e2e"
+red = "#f7768e"
+green = "#9ece6a"
+yellow = "#e0af68"
+blue = "#7aa2f7"
+magenta = "#bb9af7"
+cyan = "#7dcfff"
+white = "#c0caf5"
+
+[colors.bright]
+black = "#414868"
+red = "#f7768e"
+green = "#9ece6a"
+yellow = "#e0af68"
+blue = "#7aa2f7"
+magenta = "#bb9af7"
+cyan = "#7dcfff"
+white = "#ffffff"
+
+[cursor]
+style = { shape = "Block", blinking = "Off" }
+blink_interval = 500
+
+[keyboard]
+bindings = [
+  { key = "V", mods = "Control|Shift", action = "Paste" },
+  { key = "C", mods = "Control|Shift", action = "Copy" },
+  { key = "Q", mods = "Control", action = "Quit" }
+]
+
+[terminal.shell]
+program = "/bin/bash"
