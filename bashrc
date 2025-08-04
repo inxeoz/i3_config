@@ -11,7 +11,6 @@ alias grep='grep --color=auto'
 alias cdc='cd ~/coding'
 alias cdd='cd ~/Downloads'
 alias cdt='cd ~/Temp'
-alias cdnvim='cd ~/.config/nvim/'
 
 #######################################
 # >>> Prompt
