@@ -29,3 +29,10 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export LS_COLORS="di=37:*di=*/"
 
 #######################################
+
+##
+## sudo pacman -S bash-completion
+
+
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+    . /usr/share/bash-completion/bash_completion
