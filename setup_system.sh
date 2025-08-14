@@ -89,7 +89,8 @@ install_packages() {
             "polybar"
 
             # Application launchers
-            "rofi" "dmenu"
+            "rofi"
+            # "dmenu" conflict with manjaro dmenu
 
             # Audio
             "pulseaudio" "pulseaudio-alsa" "pavucontrol" "pamixer"
