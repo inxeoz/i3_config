@@ -3,12 +3,16 @@
 
 ### ========== GENERAL SETTINGS ========== ###
 set $mod Mod4
+set $mod1 Mod1
 set $terminal alacritty
 
-font pango:monospace 8
+font pango:monospace 10
 
 ### ========== AUTOSTART APPLICATIONS ========== ###
+# Wallpaper randomizer
 exec_always --no-startup-id bash -c 'feh --bg-scale "$(find ~/Wallpaper -type f -print0 | shuf -z -n 1 | xargs -0)"'
+
+# Compositor & system tray stuff
 exec --no-startup-id picom --experimental-backends --config ~/.config/picom/picom.conf
 exec --no-startup-id xfce4-power-manager
 exec --no-startup-id nm-applet
@@ -16,13 +20,14 @@ exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id polybar
 
-
-### ========== Wallpaper ========== ###
-exec --no-startup-id bash -c "feh --bg-scale \"$(find ~/Wallpaper -type f -print0 | shuf -z -n 1 | xargs -0)\""
+# Optional extras (from ~/.i3/config)
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id pamac-tray
+exec --no-startup-id clipit
 
 ### ========== APPEARANCE ========== ###
-new_window pixel 5
-for_window [class=".*"] border pixel 5
+new_window pixel 3
+for_window [class=".*"] border pixel 3
 
 set $active_border   #edf6f9aa
 set $inactive_border #595959aa
@@ -34,6 +39,7 @@ client.unfocused $inactive_border $inactive_border $inactive_border $inactive_bo
 
 # Kill focused window
 bindsym $mod+c kill
+bindsym $mod+Shift+q kill   # legacy support
 
 # Launch terminal
 bindsym $mod+Return exec $terminal
@@ -51,10 +57,13 @@ bindsym XF86AudioMicMute     exec --no-startup-id pactl set-source-mute @DEFAULT
 
 # Screenshot
 bindsym Print exec flameshot gui
-bindsym $mod+Print exec import png:- | xclip -selection clipboard -t image/png
+bindsym $mod+Print exec bash -c 'import png:- | tee ~/.Shareable/inxeozss.png | xclip -selection clipboard -t image/png && ~/.local/bin/send_ss.sh'
+
 bindsym Control+Print exec flameshot full --raw > ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png
 
-# Change focus
+bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s   # legacy
+
+# Window focus
 bindsym $mod+j focus left
 bindsym $mod+k focus down
 bindsym $mod+l focus up
@@ -69,6 +78,7 @@ bindsym $mod+Shift+semicolon move right
 # Split layout
 bindsym $mod+h split h
 bindsym $mod+v split v
+bindsym $mod+q split toggle   # legacy
 
 # Fullscreen toggle
 bindsym $mod+f fullscreen toggle
@@ -78,12 +88,19 @@ bindsym $mod+s layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
-# Tiling / Floating
+# Floating toggle
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+space focus mode_toggle
 
+# Sticky windows (from old config)
+bindsym $mod+Shift+s sticky toggle
+
 # Focus parent container
 bindsym $mod+a focus parent
+
+# Scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
 
 # Resize mode
 mode "resize" {
@@ -148,7 +165,13 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 floating_modifier $mod
 tiling_drag modifier titlebar
 
+# Gaps (from old config, optional)
+gaps inner 2
+gaps outer 2
+smart_gaps on
+smart_borders on
 
-# sudo pacman -S i3-wm i3status dex xss-lock i3lock xclip xdg-utils feh picom \
-# xfce4-power-manager network-manager-applet pavucontrol dmenu rofi pulseaudio \
-# pulseaudio-alsa flameshot imagemagick alacritty kitty polybar
+
+### commands
+
+bindsym Mod1+v exec ~/.local/bin/ss_to_clipboard.sh
