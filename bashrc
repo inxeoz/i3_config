@@ -1,5 +1,13 @@
 # ~/.bashrc
 
+cat() {
+    if [ -d "$1" ]; then
+        ls "$1"
+    else
+        command cat "$@"
+    fi
+}
+
 # Exit early if not running interactively
 [[ $- != *i* ]] && return
 
@@ -34,6 +42,8 @@ export NVM_DIR="$HOME/.nvm"
 
 export DENO_INSTALL="$HOME/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
+export LANG=en_US.UTF-8
+
 
 #######################################
 
@@ -42,3 +52,25 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
     . /usr/share/bash-completion/bash_completion
+
+# System monitoring aliases
+alias meminfo='free -h'
+alias cpuinfo='lscpu'
+alias diskusage='df -h'
+alias processes='ps aux --sort=-%cpu | head -20'
+alias netstat='ss -tuln'
+alias temps='sensors 2>/dev/null || echo "Install lm-sensors for temperature monitoring"'
+alias syslog='journalctl -f'
+
+# Quick system info function
+sysinfo() {
+    echo "=== System Information ==="
+    echo "Hostname: $(hostname)"
+    echo "Uptime: $(uptime -p)"
+    echo "Load: $(uptime | awk -F'load average:' '{print $2}')"
+    echo "Memory: $(free -h | awk '/^Mem/ {print $3"/"$2" ("$3/$2*100"%)"}')"
+    echo "Disk: $(df -h / | awk 'NR==2 {print $3"/"$2" ("$5")"}')"
+    if command -v sensors >/dev/null 2>&1; then
+        echo "CPU Temp: $(sensors | grep 'Core 0' | awk '{print $3}' || echo 'N/A')"
+    fi
+}
