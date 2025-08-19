@@ -10,7 +10,9 @@ FILES_TO_BACKUP=(
     "$HOME/.config/kitty/kitty.conf"
     "$HOME/.config/alacritty/alacritty.toml"
     "$HOME/.config/starship.toml"
-    "$HOME/.config/nvim/init.lua"
+    "$HOME/.config/nvim/init.lua",
+    "$HOME/.config/polybar/config.ini",
+
 )
 
 
