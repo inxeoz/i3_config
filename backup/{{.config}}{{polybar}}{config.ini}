@@ -1,0 +1,154 @@
+;==========================================================
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;   Polybar configuration
+;   https://github.com/polybar/polybar
+;
+;==========================================================
+
+[colors]
+background         = #B4282A2E
+background-alt     = #373B41
+foreground         = #C5C8C6
+primary            = #F0C674
+secondary          = #8ABEB7
+alert              = #A54242
+disabled           = #707880
+
+[bar/example]
+bottom             = true
+width              = 100%
+height             = 21pt
+background         = ${colors.background}
+foreground         = ${colors.foreground}
+line-size          = 3pt
+border-color       = #00000000
+padding-left       = 0
+padding-right      = 1
+module-margin      = 1
+separator          = |
+separator-foreground = ${colors.disabled}
+font-0             = Jetbrains Mono;2
+modules-left       = xworkspaces xwindow
+modules-right      = filesystem pulseaudio brightness xkeyboard memory cpu bluetooth battery date
+cursor-click       = pointer
+cursor-scroll      = ns-resize
+enable-ipc         = true
+
+[module/systray]
+type               = internal/tray
+format-margin      = 8pt
+tray-spacing       = 16pt
+
+[module/xworkspaces]
+type                        = internal/xworkspaces
+label-active                = %name%
+label-active-background     = ${colors.background-alt}
+label-active-underline      = ${colors.primary}
+label-active-padding        = 1
+label-occupied              = %name%
+label-occupied-padding      = 1
+label-urgent                = %name%
+label-urgent-background     = ${colors.alert}
+label-urgent-padding        = 1
+label-empty                 = %name%
+label-empty-foreground      = ${colors.disabled}
+label-empty-padding         = 1
+
+[module/xwindow]
+type               = internal/xwindow
+label              = %title:0:60:...%
+
+[module/filesystem]
+type               = internal/fs
+interval           = 25
+mount-0            = /
+label-mounted      = %{F#F0C674}%mountpoint%%{F-} %percentage_used%%
+label-unmounted    = %mountpoint% not mounted
+label-unmounted-foreground = ${colors.disabled}
+
+[module/pulseaudio]
+type                        = internal/pulseaudio
+use-ui-max                  = false
+format-volume-prefix        = "VOL "
+format-volume-prefix-foreground = ${colors.primary}
+label-volume                = %percentage%%
+label-muted                 = muted
+label-muted-foreground      = ${colors.disabled}
+click-right                 = pavucontrol
+
+[module/brightness]
+type                        = custom/script
+exec                        = bash -c "brightnessctl get | awk '{ printf \"%d%%\", (\$1/96000)*100 }'"
+interval                    = 2
+format-prefix               = "BRT "
+format-prefix-foreground    = ${colors.primary}
+label                       = %output%
+label-margin                = 1
+click-left                  = brightnessctl set +5%
+click-right                 = bash -c 'val=$(brightnessctl get); min=$(brightnessctl max | awk "{print int(\\$1*0.1)}"); [ $val -gt $min ] && brightnessctl set 5%-'
+scroll-up                   = brightnessctl set +5%
+scroll-down                 = bash -c 'val=$(brightnessctl get); min=$(brightnessctl max | awk "{print int(\\$1*0.1)}"); [ $val -gt $min ] && brightnessctl set 5%-'
+
+[module/xkeyboard]
+type                        = internal/xkeyboard
+blacklist-0                 = num lock
+label-layout                = %layout%
+label-layout-foreground     = ${colors.primary}
+label-indicator-padding     = 2
+label-indicator-margin      = 1
+label-indicator-foreground  = ${colors.background}
+label-indicator-background  = ${colors.secondary}
+
+[module/memory]
+type                        = custom/script
+exec                        = free | awk '/Mem/ { printf "%d", ($3/$2)*100 }'
+interval                    = 2
+format-prefix               = "RAM "
+format-prefix-foreground    = ${colors.primary}
+label                       = %output%%
+click-left                  = kitty -e htop
+
+[module/cpu]
+type                        = custom/script
+exec                        = bash -c "grep 'cpu ' /proc/stat | awk '{usage=(\$2+\$4)*100/(\$2+\$4+\$5)} END {printf \"%d\", usage}'"
+interval                    = 2
+format-prefix               = "CPU "
+format-prefix-foreground    = ${colors.primary}
+label                       = %output%%
+click-left                  = kitty -e htop
+
+[module/bluetooth]
+type                        = custom/script
+exec                        = bash -c 'bluetoothctl show | grep -q "Powered: yes" && bluetoothctl devices | wc -l || echo "Off"'
+interval                    = 5
+format-prefix               = "BT "
+label                       = %output%
+click-left                  = blueman-applet & blueman-manager &
+
+[module/battery]
+type                        = custom/script
+exec                        = bash -c 'cap=$(< /sys/class/power_supply/BAT0/capacity); stat=$(< /sys/class/power_supply/BAT0/status); echo "$cap% ${stat:0:3}"'
+interval                    = 5
+format-prefix               = "BAT "
+label                       = %output%
+
+[module/date]
+type                        = internal/date
+interval                    = 1.0
+date                        = %I:%M
+date-alt                    = %Y-%m-%d %H:%M:%S
+label                       = %date%
+label-foreground            = ${colors.primary}
+
+[settings]
+screenchange-reload        = true
+pseudo-transparency        = true
+
+; vim:ft=dosini

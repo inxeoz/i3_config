@@ -20,29 +20,91 @@ FILES_TO_BACKUP=(
 # Ensure backup directory exists
 mkdir -p ./backup
 
+
+
 for src in "${FILES_TO_BACKUP[@]}"; do
     if [ -f "$src" ]; then
         # Remove $HOME/ from the path
         rel_path="${src#$HOME/}"
-        # Replace all / with .
-        dot_path="${rel_path//\//.}"
-        orig_file_name="$(basename "$src")"
-        if [[ "$orig_file_name" == .* ]]; then
-            # If file name starts with a dot, replace with {DOT}
-            # Find the path before the file name
-            path_before_file="${dot_path%.*}"
-            file_name="{DOT}${orig_file_name#.}"
-            if [[ -n "$path_before_file" && "$path_before_file" != "$dot_path" ]]; then
-                newname="${path_before_file}.$file_name"
-            else
-                newname="$file_name"
-            fi
+        IFS='/' read -ra path_parts <<< "$rel_path"
+        backup_name=""
+        for ((i=0; i<${#path_parts[@]}-1; i++)); do
+            backup_name+="{{${path_parts[$i]}}}"
+        done
+    file_name="${path_parts[${#path_parts[@]}-1]}"
+    backup_name+="{${file_name}}"
+        cp "$src" "./backup/$backup_name"
+        echo "Copied $src -> backup/$backup_name"
+    else
+        echo "Warning: $src not found, skipping."
+    fi
+done
+
+# Default root directory is $HOME, default output is ./backup, default src is empty
+ROOT="$HOME"
+OUTDIR="./backup"
+SRCDIR=""
+# Parse options
+while [[ "$1" == -* ]]; do
+    case "$1" in
+        -dir)
+            shift
+            ROOT="$1"
+            ;;
+        -out)
+            shift
+            OUTDIR="$1"
+            ;;
+        -src)
+            shift
+            SRCDIR="$1"
+            ;;
+        *)
+            echo "Unknown option: $1" >&2
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+# List of files to backup (add or remove as needed)
+if [[ -n "$SRCDIR" ]]; then
+    # Find all files under SRCDIR
+    mapfile -t FILES_TO_BACKUP < <(find "$SRCDIR" -type f)
+else
+    FILES_TO_BACKUP=(
+        "$ROOT/.bashrc"
+        "$ROOT/.xinitrc"
+        "$ROOT/.config/i3/config"
+        "$ROOT/.config/picom.conf"
+        "$ROOT/.config/kitty/kitty.conf"
+        "$ROOT/.config/alacritty/alacritty.toml"
+        "$ROOT/.config/starship.toml"
+        "$ROOT/.config/nvim/init.lua"
+        "$ROOT/.config/polybar/config.ini"
+    )
+fi
+
+# Ensure output directory exists
+mkdir -p "$OUTDIR"
+
+for src in "${FILES_TO_BACKUP[@]}"; do
+    if [ -f "$src" ]; then
+        # Remove $ROOT/ or $SRCDIR/ from the path
+        if [[ -n "$SRCDIR" ]]; then
+            rel_path="${src#$SRCDIR/}"
         else
-            # Normal process: just use dot_path
-            newname="$dot_path"
+            rel_path="${src#$ROOT/}"
         fi
-        cp "$src" "./backup/$newname"
-        echo "Copied $src -> backup/$newname"
+        IFS='/' read -ra path_parts <<< "$rel_path"
+        backup_name=""
+        for ((i=0; i<${#path_parts[@]}-1; i++)); do
+            backup_name+="{{${path_parts[$i]}}}"
+        done
+        file_name="${path_parts[${#path_parts[@]}-1]}"
+        backup_name+="{${file_name}}"
+        cp "$src" "$OUTDIR/$backup_name"
+        echo "Copied $src -> $OUTDIR/$backup_name"
     else
         echo "Warning: $src not found, skipping."
     fi

@@ -1,0 +1,177 @@
+# i3 config file (v4)
+# For full reference: https://i3wm.org/docs/userguide.html
+
+### ========== GENERAL SETTINGS ========== ###
+set $mod Mod4
+set $mod1 Mod1
+set $terminal alacritty
+
+font pango:monospace 10
+
+### ========== AUTOSTART APPLICATIONS ========== ###
+# Wallpaper randomizer
+exec_always --no-startup-id bash -c 'feh --bg-scale "$(find ~/Wallpaper -type f -print0 | shuf -z -n 1 | xargs -0)"'
+
+# Compositor & system tray stuff
+exec --no-startup-id picom --experimental-backends --config ~/.config/picom/picom.conf
+exec --no-startup-id xfce4-power-manager
+exec --no-startup-id nm-applet
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id polybar
+
+# Optional extras (from ~/.i3/config)
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id pamac-tray
+exec --no-startup-id clipit
+
+### ========== APPEARANCE ========== ###
+new_window pixel 3
+for_window [class=".*"] border pixel 3
+
+set $active_border   #edf6f9aa
+set $inactive_border #595959aa
+
+client.focused   $active_border $active_border $active_border $active_border
+client.unfocused $inactive_border $inactive_border $inactive_border $inactive_border
+
+### ========== KEYBINDINGS ========== ###
+
+# Kill focused window
+bindsym $mod+c kill
+bindsym $mod+Shift+q kill   # legacy support
+
+# Launch terminal
+bindsym $mod+Return exec $terminal
+
+# Application launcher
+bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym Mod1+space exec rofi -show drun
+
+# Volume controls
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute     exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# Screenshot
+bindsym Print exec flameshot gui
+bindsym $mod+Print exec bash -c 'import png:- | tee ~/.Shareable/inxeozss.png | xclip -selection clipboard -t image/png && ~/.local/bin/send_ss.sh'
+
+bindsym Control+Print exec flameshot full --raw > ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png
+
+bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s   # legacy
+
+# Window focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+
+# Move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+# Split layout
+bindsym $mod+h split h
+bindsym $mod+v split v
+bindsym $mod+q split toggle   # legacy
+
+# Fullscreen toggle
+bindsym $mod+f fullscreen toggle
+
+# Layout toggle
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Floating toggle
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+# Sticky windows (from old config)
+bindsym $mod+Shift+s sticky toggle
+
+# Focus parent container
+bindsym $mod+a focus parent
+
+# Scratchpad
+bindsym $mod+Shift+minus move scratchpad
+bindsym $mod+minus scratchpad show
+
+# Resize mode
+mode "resize" {
+    bindsym j resize shrink width 10 px or 10 ppt
+    bindsym k resize grow height 10 px or 10 ppt
+    bindsym l resize shrink height 10 px or 10 ppt
+    bindsym semicolon resize grow width 10 px or 10 ppt
+
+    bindsym Left  resize shrink width 10 px or 10 ppt
+    bindsym Down  resize grow height 10 px or 10 ppt
+    bindsym Up    resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Exit / restart / reload
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec i3-msg exit
+
+### ========== WORKSPACES ========== ###
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+# Switch to workspace
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+# Move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+### ========== MISC ========== ###
+floating_modifier $mod
+tiling_drag modifier titlebar
+
+# Gaps (from old config, optional)
+gaps inner 2
+gaps outer 2
+smart_gaps on
+smart_borders on
+
+
+### commands
+
+bindsym Mod1+v exec ~/.local/bin/ss_to_clipboard.sh
