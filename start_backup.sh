@@ -6,12 +6,14 @@ FILES_TO_BACKUP=(
     "$HOME/.bashrc"
     "$HOME/.xinitrc"
     "$HOME/.config/i3/config"
-    "$HOME/.config/picom.conf"
+    "$HOME/.config/picom/picom.conf"
     "$HOME/.config/kitty/kitty.conf"
     "$HOME/.config/alacritty/alacritty.toml"
     "$HOME/.config/starship.toml"
     "$HOME/.config/nvim/init.lua",
     "$HOME/.config/polybar/config.ini",
+    "$HOME/.local/bin/x",
+     
 
 )
 
