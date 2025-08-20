@@ -166,8 +166,8 @@ floating_modifier $mod
 tiling_drag modifier titlebar
 
 # Gaps (from old config, optional)
-gaps inner 2
-gaps outer 2
+gaps inner 1
+gaps outer 1
 smart_gaps on
 smart_borders on
 
