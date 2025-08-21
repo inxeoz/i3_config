@@ -111,7 +111,7 @@ shadow-ignore-shaped = false;
 #################################
 
 inactive-opacity = 0.8;
-active-opacity = 0.8;
+active-opacity = 1;
 frame-opacity = 1;
 inactive-opacity-override = false;
 
@@ -119,7 +119,8 @@ inactive-opacity-override = false;
 # xprop | grep WM_CLASS # use to find class of application
 opacity-rule = [
   "100:class_g = 'firefox'",
-  "100:class_g = 'dev.zed.Zed'"
+  "100:class_g = 'dev.zed.Zed'",
+  "80:class_g = 'Alacritty'"
 ];
 
 
