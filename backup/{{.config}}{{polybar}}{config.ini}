@@ -113,7 +113,7 @@ interval                    = 2
 format-prefix               = "RAM "
 format-prefix-foreground    = ${colors.primary}
 label                       = %output%%
-click-left                  = kitty -e htop
+
 
 [module/cpu]
 type                        = custom/script
@@ -122,7 +122,7 @@ interval                    = 2
 format-prefix               = "CPU "
 format-prefix-foreground    = ${colors.primary}
 label                       = %output%%
-click-left                  = kitty -e htop
+click-left                  = exec alacritty --hold -e btop --force-utf
 
 [module/bluetooth]
 type                        = custom/script

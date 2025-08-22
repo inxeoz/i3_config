@@ -24,6 +24,8 @@ alias grep='grep --color=auto'
 alias cdc='cd ~/coding'
 alias cdd='cd ~/Downloads'
 alias cdt='cd ~/Temp'
+alias btop="btop --utf-force"
+
 
 #######################################
 # >>> Prompt
@@ -44,8 +46,10 @@ export PATH="$DENO_INSTALL/bin:$PATH"
 
 # Directory colors (non-bold white)
 export LS_COLORS="di=37:*di=*/"
-
 export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
 
 # Node Version Manager (nvm)
 export NVM_DIR="$HOME/.nvm"
