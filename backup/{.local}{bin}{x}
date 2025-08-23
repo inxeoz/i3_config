@@ -5,5 +5,15 @@
 TMP_FILE=$(mktemp)
 trap 'cat "$TMP_FILE" | xclip -selection clipboard; rm -f "$TMP_FILE"; echo -e "\n\n📋 Output copied to clipboard.";' EXIT
 
+if [ $# -eq 1 ]; then
+    if [ -f "$1" ]; then
+        # Single argument is a file → cat it
+        set -- cat "$1"
+    elif [ -d "$1" ]; then
+        # Single argument is a directory → ls it
+        set -- ls "$1"
+    fi
+fi
+
 # Run the command and tee output to both terminal and temp file
 "$@" 2>&1 | tee "$TMP_FILE"

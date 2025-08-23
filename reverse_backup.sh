@@ -1,67 +1,52 @@
 #!/bin/bash
-# reverse_backup.sh - Restore config files from dot-joined backup names in current folder to their original locations
+# reverse_backup.sh - Restore config files from { }-encoded backup names
+# Converts names like {config}{nvim}{init.lua} back into ~/.config/nvim/init.lua
 
+set -euo pipefail
 
-
-
-# Default root directory is $HOME, default src is ./backup, default out is empty
+# Defaults
 ROOT="$HOME"
 SRCDIR="./backup"
 OUTDIR=""
+
 # Parse options
-while [[ "$1" == -* ]]; do
+while [[ $# -gt 0 ]]; do
     case "$1" in
-        -dir)
-            shift
-            ROOT="$1"
-            ;;
-        -src)
-            shift
-            SRCDIR="$1"
-            ;;
-        -out)
-            shift
-            OUTDIR="$1"
-            ;;
-        --demo)
-            ROOT="./reverse_backup"
-            ;;
-        *)
-            echo "Unknown option: $1" >&2
-            exit 1
-            ;;
+        -dir)  ROOT="$2"; shift 2 ;;
+        -src)  SRCDIR="$2"; shift 2 ;;
+        -out)  OUTDIR="$2"; shift 2 ;;
+        --demo) ROOT="./reverse_backup"; shift ;;
+        *) echo "Unknown option: $1" >&2; exit 1 ;;
     esac
-    shift
 done
 
+# Ensure source exists
+if [[ ! -d "$SRCDIR" ]]; then
+    echo "Error: Source directory '$SRCDIR' does not exist." >&2
+    exit 1
+fi
 
+# Process each file in backup dir
+shopt -s nullglob
 for file in "$SRCDIR"/*; do
-    # Skip directories
-    [ -f "$file" ] || continue
+    [[ -f "$file" ]] || continue
     fname="$(basename "$file")"
-    # Decode backup name: {{folder}}{{folder}}{file}
-    path_rebuild=""
-    rest="$fname"
-    while [[ "$rest" =~ ^\{\{([^}]*)\}\}(.*) ]]; do
-        folder="${BASH_REMATCH[1]}"
-        path_rebuild+="$folder/"
-        rest="${BASH_REMATCH[2]}"
-    done
-    if [[ "$rest" =~ ^\{([^}]*)\}$ ]]; then
-        file_name="${BASH_REMATCH[1]}"
-        path_rebuild+="$file_name"
-    else
-        # fallback: just use rest
-        path_rebuild+="$rest"
-    fi
+
+    # Decode backup name:
+    # {config}{nvim}{init.lua} → config/nvim/init.lua
+    path_rebuild="${fname//\}/}"   # strip braces safely
+    path_rebuild="${path_rebuild//\}\{//}"  # replace '}{' with '/'
+    path_rebuild="${path_rebuild#\{}"       # strip leading {
+    path_rebuild="${path_rebuild%\}}"       # strip trailing }
+
+    # Destination: OUTDIR > ROOT
     if [[ -n "$OUTDIR" ]]; then
         dest="$OUTDIR/$path_rebuild"
     else
         dest="$ROOT/$path_rebuild"
     fi
-    dest_dir="$(dirname "$dest")"
-    mkdir -p "$dest_dir"
-    cp "$file" "$dest"
-    echo "Restored $fname -> $dest"
 
+    mkdir -p "$(dirname "$dest")"
+    cp "$file" "$dest"
+    echo "Restored: $fname -> $dest"
 done
