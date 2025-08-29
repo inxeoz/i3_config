@@ -24,7 +24,7 @@ alias grep='grep --color=auto'
 alias cdc='cd ~/coding'
 alias cdd='cd ~/Downloads'
 alias cdt='cd ~/Temp'
-alias btop="btop --utf-force"
+#alias btop="btop --utf-force"
 
 
 #######################################
