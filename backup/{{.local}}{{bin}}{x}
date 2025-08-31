@@ -2,6 +2,15 @@
 
 # x: run command, show real-time output, save to file, copy output to clipboard at end
 
+if [ $# -eq 0 ]; then
+    # No arguments → print current path and copy it
+    PWD_PATH=$(pwd)
+    echo "$PWD_PATH"
+    echo -n "$PWD_PATH" | xclip -selection clipboard
+    echo -e "\n📋 Current path copied to clipboard."
+    exit 0
+fi
+
 TMP_FILE=$(mktemp)
 trap 'cat "$TMP_FILE" | xclip -selection clipboard; rm -f "$TMP_FILE"; echo -e "\n\n📋 Output copied to clipboard.";' EXIT
 
