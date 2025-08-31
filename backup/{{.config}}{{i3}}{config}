@@ -175,4 +175,6 @@ smart_borders on
 
 ### commands
 
-bindsym Mod1+v exec ~/.local/bin/ss_to_clipboard.sh
+bindsym Mod1+c exec bash -c 'import png:- | tee ~/Pictures/screenshot.png | xclip -selection clipboard -t image/png'
+
+bindsym Mod1+v exec echo -n ~/Pictures/screenshot.png | xclip -selection clipboard
