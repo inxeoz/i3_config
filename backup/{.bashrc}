@@ -1,13 +1,13 @@
 # ~/.bashrc
-
-# Exit early if not running interactively
 [[ $- != *i* ]] && return
 
+
+
 #######################################
-# >>> Functions
+# >>> Shared aliases & functions
 #######################################
 
-# Override cat: If argument is a directory, list it; otherwise, run cat as normal
+# Override cat
 cat() {
     if [ $# -eq 1 ] && [ -d "$1" ]; then
         ls "$1"
@@ -16,9 +16,7 @@ cat() {
     fi
 }
 
-#######################################
-# >>> Aliases
-#######################################
+# Aliases
 alias ls='ls --color=auto --classify'
 alias grep='grep --color=auto'
 alias cdc='cd ~/coding'
@@ -26,48 +24,24 @@ alias cdd='cd ~/Downloads'
 alias cdt='cd ~/Temp'
 #alias btop="btop --utf-force"
 
-
-#######################################
-# >>> Prompt
-#######################################
-PS1='[\u@\h \W | $(date "+%I:%M:%S %p")]\$ '
-
-#######################################
-# >>> Environment variables
-#######################################
-
-# PATH - Local tools
+# PATH and env
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.cargo/bin:$PATH"
-export PATH=~/.npm-global/bin:$PATH
+export PATH="~/.npm-global/bin:$PATH"
 export PATH="$HOME/.nvm:$PATH"
 export DENO_INSTALL="$HOME/.deno"
 export PATH="$DENO_INSTALL/bin:$PATH"
 
-# Directory colors (non-bold white)
 export LS_COLORS="di=37:*di=*/"
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-
 # Node Version Manager (nvm)
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-#######################################
-# >>> Bash completion
-#######################################
-##
-## sudo pacman -S bash-completion
-
-[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
-    . /usr/share/bash-completion/bash_completion
-
-#######################################
-# >>> System monitoring aliases
-#######################################
+# System info
 alias meminfo='free -h'
 alias cpuinfo='lscpu'
 alias diskusage='df -h'
@@ -76,9 +50,6 @@ alias netstat='ss -tuln'
 alias temps='sensors 2>/dev/null || echo "Install lm-sensors for temperature monitoring"'
 alias syslog='journalctl -f'
 
-#######################################
-# >>> Quick system info function
-#######################################
 sysinfo() {
     echo "=== System Information ==="
     echo "Hostname: $(hostname)"
@@ -90,3 +61,11 @@ sysinfo() {
         echo "CPU Temp: $(sensors | grep 'Core 0' | awk '{print $3}' || echo 'N/A')"
     fi
 }
+
+
+
+# Bash-only things
+PS1='\n[\u@manjaro-i3 | \[\e[33m\]\W\[\e[0m\] | $(date "+%I:%M:%S %p")]\$ '
+
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+    . /usr/share/bash-completion/bash_completion
