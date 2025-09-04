@@ -69,3 +69,7 @@ PS1='\n[\u@manjaro-i3 | \[\e[33m\]\W\[\e[0m\] | $(date "+%I:%M:%S %p")]\$ '
 
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
     . /usr/share/bash-completion/bash_completion
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

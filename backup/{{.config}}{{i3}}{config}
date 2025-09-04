@@ -10,16 +10,20 @@ font pango:monospace 10
 
 ### ========== AUTOSTART APPLICATIONS ========== ###
 # Wallpaper randomizer
-exec_always --no-startup-id bash -c 'feh --bg-scale "$(find ~/Wallpaper -type f -print0 | shuf -z -n 1 | xargs -0)"'
+#exec_always --no-startup-id bash -c 'feh --bg-scale "$(find ~/Wallpaper -type f -print0 | shuf -z -n 1 | xargs -0)"'
+exec_always --no-startup-id feh --randomize --bg-fill ~/Wallpaper/*
 
 # Compositor & system tray stuff
-exec --no-startup-id picom --experimental-backends --config ~/.config/picom/picom.conf
+#exec --no-startup-id picom --experimental-backends --config ~/.config/picom/picom.conf
+exec --no-startup-id picom --config ~/.config/picom/picom.conf --backend glx --vsync
+
 exec --no-startup-id xfce4-power-manager
-exec --no-startup-id nm-applet
+#exec --no-startup-id nm-applet
+
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id polybar
-exec --no-startup-id picom
+#exec --no-startup-id picom
 
 # Optional extras (from ~/.i3/config)
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -46,7 +50,7 @@ bindsym $mod+Shift+q kill   # legacy support
 bindsym $mod+Return exec $terminal
 
 # Application launcher
-bindsym $mod+d exec --no-startup-id dmenu_run
+#bindsym $mod+d exec --no-startup-id dmenu_run
 bindsym Mod1+space exec rofi -show drun
 
 # Volume controls
