@@ -73,3 +73,4 @@ PS1='\n[\u@manjaro-i3 | \[\e[33m\]\W\[\e[0m\] | $(date "+%I:%M:%S %p")]\$ '
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+export PATH="$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
