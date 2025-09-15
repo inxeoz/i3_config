@@ -31,6 +31,7 @@ else
         "$ROOT/.config/nvim/init.lua"
         "$ROOT/.config/polybar/config.ini"
         "$ROOT/.local/bin/x"
+        "$ROOT/.local/bin/startx1"
         "/etc/default/grub"
         "$ROOT/.local/bin/startup.sh"
     )
