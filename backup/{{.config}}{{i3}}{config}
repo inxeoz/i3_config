@@ -18,6 +18,8 @@ exec_always --no-startup-id feh --randomize --bg-fill ~/Wallpaper/*
 #exec --no-startup-id picom --config ~/.config/picom/picom.conf --backend glx --vsync
 
 exec --no-startup-id xfce4-power-manager
+exec --no-startup-id dunst
+
 #exec --no-startup-id nm-applet
 
 exec --no-startup-id dex --autostart --environment i3
