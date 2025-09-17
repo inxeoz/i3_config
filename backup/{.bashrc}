@@ -65,7 +65,7 @@ sysinfo() {
 
 
 # Bash-only things
-PS1='\n[\u@manjaro-i3 | \[\e[33m\]\W\[\e[0m\] | $(date "+%I:%M:%S %p")]\$ '
+PS1='\n[\u@manjaro-i3 | \[\e[33m\]\w\[\e[0m\] | $(date "+%I:%M:%S %p")]\$ '
 
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
     . /usr/share/bash-completion/bash_completion
