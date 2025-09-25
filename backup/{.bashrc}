@@ -74,3 +74,24 @@ PS1='\n[\u@manjaro-i3 | \[\e[33m\]\w\[\e[0m\] | $(date "+%I:%M:%S %p")]\$ '
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export PATH="$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH"
+
+
+# Protect VS Code
+code_safe() {
+  if [[ "$1" == "/" || "$1" == "/root" ]]; then
+    echo "❌ Refusing to open $1 in VS Code."
+  else
+    code "$@"
+  fi
+}
+alias code=code_safe
+
+# Protect Zed
+zed_safe() {
+  if [[ "$1" == "/" || "$1" == "/root" ]]; then
+    echo "❌ Refusing to open $1 in Zed."
+  else
+    zed "$@"
+  fi
+}
+alias zed=zed_safe
