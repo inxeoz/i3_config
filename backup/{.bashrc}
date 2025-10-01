@@ -7,14 +7,6 @@
 # >>> Shared aliases & functions
 #######################################
 
-# Override cat
-cat() {
-    if [ $# -eq 1 ] && [ -d "$1" ]; then
-        ls "$1"
-    else
-        command cat "$@"
-    fi
-}
 
 # Aliases
 alias ls='ls --color=auto --classify'
