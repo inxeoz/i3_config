@@ -1,7 +1,7 @@
 theme = "dracula"
 
 [keys.insert]
-"\\" = { "\\" = "normal_mode" }
+";" = { ";" = "normal_mode" }
 
 [keys.normal]
-"/" = { "/" = "insert_mode" }
+";" =  "insert_mode"
