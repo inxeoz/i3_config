@@ -1,10 +1,7 @@
 # ~/.config/alacritty/alacritty.toml
 [general]
 import = [
-  #"~/.config/alacritty/catppuccin-latte.toml"
-   "~/.config/alacritty/catppuccin-frappe.toml"
-  # "~/.config/alacritty/catppuccin-macchiato.toml"
-  # "~/.config/alacritty/catppuccin-mocha.toml"
+   "~/.config/alacritty/iris.toml"
 ]
 
 [terminal]
@@ -37,40 +34,6 @@ italic = { family = "JetBrains Mono", style = "Italic" }
 size = 12.0
 offset = { x = 0, y = 1 }
 
-# Matches bold text with bright colors
-#draw_bold_text_with_bright_colors = true
-
-# [colors.primary]
-# background = "#0f111a"
-# foreground = "#dcdfe4"
-
-# [colors.cursor]
-# text = "CellBackground"
-# cursor = "#f7768e"
-
-# [colors.selection]
-# text = "CellForeground"
-# background = "#3e4451"
-
-# [colors.normal]
-# black = "#1e1e2e"
-# red = "#f7768e"
-# green = "#9ece6a"
-# yellow = "#e0af68"
-# blue = "#7aa2f7"
-# magenta = "#bb9af7"
-# cyan = "#7dcfff"
-# white = "#c0caf5"
-
-# [colors.bright]
-# black = "#414868"
-# red = "#f7768e"
-# green = "#9ece6a"
-# yellow = "#e0af68"
-# blue = "#7aa2f7"
-# magenta = "#bb9af7"
-# cyan = "#7dcfff"
-# white = "#ffffff"
 
 [cursor]
 style = { shape = "Block", blinking = "Off" }
@@ -84,4 +47,3 @@ bindings = [
 ]
 
 
-# Import Catppuccin themes
