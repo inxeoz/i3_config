@@ -14,6 +14,7 @@ alias grep='grep --color=auto'
 alias cdc='cd ~/coding'
 alias cdd='cd ~/Downloads'
 alias cdt='cd ~/Temp'
+alias cls='clear'
 #alias btop="btop --utf-force"
 
 # PATH and env
