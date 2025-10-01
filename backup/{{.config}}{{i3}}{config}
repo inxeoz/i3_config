@@ -62,13 +62,6 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute     exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
-# Screenshot
-bindsym Print exec flameshot gui
-bindsym $mod+Print exec bash -c 'import png:- | tee ~/.Shareable/inxeozss.png | xclip -selection clipboard -t image/png && ~/.local/bin/send_ss.sh'
-
-bindsym Control+Print exec flameshot full --raw > ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png
-
-bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s   # legacy
 
 # Window focus
 bindsym $mod+j focus left
@@ -179,7 +172,14 @@ smart_gaps on
 smart_borders on
 
 
-### commands
+# Screenshot
+bindsym Print exec flameshot gui
+bindsym $mod+Print exec bash -c 'import png:- | tee ~/.Shareable/inxeozss.png | xclip -selection clipboard -t image/png && ~/.local/bin/send_ss.sh'
+
+bindsym Control+Print exec flameshot full --raw > ~/Pictures/Screenshots/$(date +%Y-%m-%d_%H-%M-%S).png
+
+bindsym $mod+Shift+Print --release exec --no-startup-id i3-scrot -s   # legacy
+
 
 bindsym Mod1+c exec bash -c 'import png:- | tee ~/Pictures/screenshot.png | xclip -selection clipboard -t image/png'
 
