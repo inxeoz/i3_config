@@ -1,1 +1,8 @@
 theme = "dracula"
+
+[keys.insert]
+l = { ";" = "command_mode" }
+
+
+[keys.normal]
+l = { ";" = "command_mode" }
